@@ -35,7 +35,7 @@ export const Cursor = () => {
     return () => {
       window.removeEventListener("mousemove", moveCursor);
     };
-  }, [variant]);
+  }, [variant, cursorX, cursorY]);
 
   const variants: Variants = {
     DEFAULT: {
