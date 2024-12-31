@@ -306,7 +306,7 @@ Contributions, issues, and feature requests are welcome! Feel free to check [iss
 ## 👨‍💻 Author
 
 Akshat Pandey
-- Website: [akshath.vercel.app]((https://akshath.vercel.app/ )
+- Website: [akshath.vercel.app](https://akshath.vercel.app ) 
 - GitHub: [@anonymousknight07](https://github.com/anonymousknight07)
 - LinkedIn: [/akshatpandey07/](https://www.linkedin.com/in/akshatpandey07/)
 
