@@ -14,7 +14,7 @@ const Filters = () => {
   const filters = Array.from(new Set(techStack));
 
   return (
-    <div className="flex items-center gap-4 py-8 justify-center max-md:flex-wrap">
+    <div className="flex flex-wrap items-center gap-4 py-8 justify-center overflow-auto max-md:gap-2 max-md:py-4">
       <Transition viewport={{ once: true }}>
         <Button
           className={cn(
