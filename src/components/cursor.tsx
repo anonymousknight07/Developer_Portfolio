@@ -17,14 +17,14 @@ export const Cursor = () => {
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
 
-  const springConfig = { damping: 25, stiffness: 100 };
+  const springConfig = { damping: 15, stiffness: 100 };
   const cursorXSpring = useSpring(cursorX, springConfig);
   const cursorYSpring = useSpring(cursorY, springConfig);
 
   useEffect(() => {
     const moveCursor = (e: MouseEvent) => {
       requestAnimationFrame(() => {
-        // Update position only on animation frame
+        
         cursorX.set(e.clientX - (variant === "PROJECT" ? 32 : 8)); // Adjust offset based on variant
         cursorY.set(e.clientY - (variant === "PROJECT" ? 32 : 8));
       });

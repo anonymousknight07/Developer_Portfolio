@@ -45,10 +45,10 @@ export const Hero = ({ about }: { about: About }) => {
             </Transition>
             <Transition viewport={{ once: true }}>
               <Link
-                href={"#contact"}
+                href={"https://drive.google.com/file/d/1tFbXyS-hF4yylWpfCEQM8IDKAYZOWyvP/view?usp=sharing"}
                 className="px-5 py-3 mt-4 rounded-full border border-white/50 flex items-center gap-4 group"
               >
-                <TextReveal>Let&apos;s talk</TextReveal>
+                <TextReveal>My Resume</TextReveal>
                 <ArrowRight
                   size={20}
                   className="group-hover:rotate-90 transition-transform"

@@ -30,10 +30,10 @@ export const metadata: Metadata = {
     title: "Akshat Pandey | Full Stack Developer & Freelance Software Engineer",
     description:
       "Explore my portfolio showcasing web applications, projects, and skills in modern software development.",
-    url: "https://akshath.vercel.app/", // Replace with your actual portfolio URL
+    url: "https://akshath.vercel.app/", 
     images: [
       {
-        url: "https://cdn.sanity.io/images/mnzfyx37/production/bef862dcca260cd50cf89d8e8c96598471d136cd-1892x890.png", // Replace with a relevant image URL
+        url: "https://cdn.sanity.io/images/mnzfyx37/production/bef862dcca260cd50cf89d8e8c96598471d136cd-1892x890.png", 
         width: 800,
         height: 600,
         alt: "Portfolio Preview",
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     title: "Akshat Pandey | Full Stack Developer & Freelance Software Engineer",
     description:
       "Welcome to my portfolio! Discover my projects and skills in web development.",
-    images: ["https://cdn.sanity.io/images/mnzfyx37/production/f669e95d5ce7f6a079dd6ec68193732c3c7b218e-960x1280.jpg"], // Replace with a relevant image URL
+    images: ["https://cdn.sanity.io/images/mnzfyx37/production/f669e95d5ce7f6a079dd6ec68193732c3c7b218e-960x1280.jpg"], 
   },
 };
 
