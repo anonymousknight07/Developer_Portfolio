@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
-import { SlideIn, TextReveal, Transition } from "./ui";
-import { About } from "@/utils/interfaces";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { SlideIn, TextReveal, Transition } from "./ui";
+import { About } from "@/utils/interfaces";
+import Image from "next/image";
 import { useState } from "react";
 import { PageLoad } from "./ui/page-load";
 
@@ -44,16 +44,28 @@ export const Hero = ({ about }: { about: About }) => {
               </p>
             </Transition>
             <Transition viewport={{ once: true }}>
-              <Link
-                href={"https://drive.google.com/file/d/1tFbXyS-hF4yylWpfCEQM8IDKAYZOWyvP/view?usp=sharing"}
-                className="px-5 py-3 mt-4 rounded-full border border-white/50 flex items-center gap-4 group"
-              >
-                <TextReveal>My Resume</TextReveal>
-                <ArrowRight
-                  size={20}
-                  className="group-hover:rotate-90 transition-transform"
-                />
-              </Link>
+              <div className="flex gap-4 mt-4">
+                <Link
+                  href={"https://drive.google.com/file/d/1tFbXyS-hF4yylWpfCEQM8IDKAYZOWyvP/view?usp=sharing"}
+                  className="px-5 py-3 rounded-full border border-white/50 flex items-center gap-4 group"
+                >
+                  <TextReveal>My Resume</TextReveal>
+                  <ArrowRight
+                    size={20}
+                    className="group-hover:rotate-90 transition-transform"
+                  />
+                </Link>
+                <Link
+                  href={"https://by8.vercel.app/"}
+                  className="px-5 py-3 rounded-full border border-white/50 flex items-center gap-4 group"
+                >
+                  <TextReveal>Blog</TextReveal>
+                  <ArrowRight
+                    size={20}
+                    className="group-hover:rotate-90 transition-transform"
+                  />
+                </Link>
+              </div>
             </Transition>
           </div>
         </div>
