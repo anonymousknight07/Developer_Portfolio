@@ -55,7 +55,7 @@ export const Hero = ({ about }: { about: About }) => {
                     className="group-hover:rotate-90 transition-transform"
                   />
                 </Link>
-                <Link
+                {/* <Link
                   href={"https://by8.vercel.app/"}
                   className="px-5 py-3 rounded-full border border-white/50 flex items-center gap-4 group"
                 >
@@ -64,7 +64,7 @@ export const Hero = ({ about }: { about: About }) => {
                     size={20}
                     className="group-hover:rotate-90 transition-transform"
                   />
-                </Link>
+                </Link> */}
               </div>
             </Transition>
           </div>

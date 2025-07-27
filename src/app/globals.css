@@ -65,3 +65,64 @@
   perspective: 120px;
   perspective-origin: bottom;
 }
+
+/* Custom slider styles */
+.slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: hsl(var(--primary));
+  cursor: pointer;
+  border: 2px solid hsl(var(--background));
+}
+
+.slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: hsl(var(--primary));
+  cursor: pointer;
+  border: 2px solid hsl(var(--background));
+}
+
+/* Line clamp utilities */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.line-clamp-4 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+
+/* Mobile responsive improvements */
+@media (max-width: 768px) {
+  .blob {
+    width: 80% !important;
+    height: 60% !important;
+  }
+  
+  .linkContainer {
+    perspective: 80px;
+  }
+}

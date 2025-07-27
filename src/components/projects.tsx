@@ -42,13 +42,13 @@ const ProjectContainer = () => {
 
   const isMobile = useMediaQuery("(max-width: 768px)");
 
-  const numProjectToShow = isMobile ? 6 : 8;
+  const numProjectToShow = isMobile ? 4 : 6;
 
   return (
     <AnimatePresence>
       <motion.div
         layout
-        className="grid md:grid-cols-3 grid-cols-2 md:gap-6 gap-3"
+        className="grid md:grid-cols-3 grid-cols-1 sm:grid-cols-2 md:gap-6 gap-4 px-2 md:px-0"
       >
         {filteredProjects
           .slice(0, showMore ? filteredProjects.length : numProjectToShow)
@@ -80,7 +80,7 @@ const ProjectContainer = () => {
   );
 };
 
-const Card = ({ title, image,description }: Project) => {
+const Card = ({ title, image, description }: Project) => {
   const [hover, setHover] = useState(false);
   const { setVariant } = useCursorVariants();
 
@@ -96,25 +96,25 @@ const Card = ({ title, image,description }: Project) => {
   return (
     <motion.div
       layout
-      className="relative rounded-xl md:rounded-3xl overflow-hidden aspect-square bg-secondary/30 md:px-4"
+      className="relative rounded-xl md:rounded-3xl overflow-hidden aspect-square bg-secondary/30 md:px-4 cursor-pointer"
       onMouseEnter={mouseEnter}
       onMouseLeave={mouseLeave}
     >
-      <div className="absolute top-2 right-2 w-full h-full flex justify-end md:hidden">
+      <div className="absolute top-3 right-3 w-full h-full flex justify-end md:hidden z-10">
         <div className="bg-white size-8 rounded-full text-black grid place-items-center">
           <ArrowUpRight size={20} />
         </div>
       </div>
-      <div className="md:py-8 relative">
+      <div className="md:py-8 relative z-10">
         <motion.div
           animate={{ y: hover ? -10 : 0 }}
           className="flex justify-between items-center max-md:hidden"
         >
-          <p className="text-sm md:text-xl font-semibold max-md:opacity-0">
+          <p className="text-sm md:text-lg font-semibold truncate pr-2">
             {title}
           </p>
           <button className="flex gap-2 items-center justify-center max-md:px-4">
-            <TextReveal className="max-md:text-sm">Visit</TextReveal>
+            <TextReveal className="text-sm">Visit</TextReveal>
             <span className="bg-black text-white/80 rounded-full p-1">
               <ArrowUpRight className="size-4 md:size-6" />
             </span>
@@ -124,18 +124,24 @@ const Card = ({ title, image,description }: Project) => {
           <motion.p
             initial={{ y: 0, opacity: 0 }}
             animate={{ y: hover ? -10 : 0, opacity: hover ? 1 : 0 }}
-            className="absolute text-white/50"
+            className="absolute text-white/50 text-sm"
           >
             Click here to know more about the project
           </motion.p>
         </div>
       </div>
+
+      {/* Mobile title overlay */}
+      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4 md:hidden">
+        <h3 className="text-white font-semibold text-sm truncate">{title}</h3>
+      </div>
+
       <Image
         src={image.url}
         width={500}
         height={500}
         alt={title}
-        className="object-cover h-full w-full object-center rounded-xl md:rounded-t-3xl"
+        className="absolute inset-0 object-cover h-full w-full object-center rounded-xl md:rounded-t-3xl"
       />
     </motion.div>
   );

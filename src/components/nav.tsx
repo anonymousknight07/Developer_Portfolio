@@ -89,12 +89,24 @@ export const navLinks = [
     href: "#about",
   },
   {
+    title: "Experience",
+    href: "#experience",
+  },
+  {
     title: "Services",
     href: "#services",
   },
   {
     title: "Projects",
     href: "#projects",
+  },
+  {
+    title: "Blog",
+    href: "/blog",
+  },
+  {
+    title: "Music",
+    href: "/music",
   },
   {
     title: "Contact",

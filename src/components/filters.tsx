@@ -8,17 +8,23 @@ import { useProjects } from "@/utils/project-context";
 const Filters = () => {
   const { projects, setAppliedFilter, appliedFilter, sort, setSort } =
     useProjects();
-  const techStack = projects.flatMap((filter) =>
-    filter.techStack.map((val) => val.trim())
-  );
+
+  const techStack = projects
+    .filter(
+      (project) =>
+        project.enabled && project.techStack && project.techStack.length > 0
+    )
+    .flatMap((project) => project.techStack.map((tech) => tech.trim()))
+    .filter((tech) => tech.length > 0);
+
   const filters = Array.from(new Set(techStack));
 
   return (
-    <div className="flex flex-wrap items-center gap-4 py-8 justify-center overflow-auto max-md:gap-2 max-md:py-4">
+    <div className="flex flex-wrap items-center gap-3 py-8 justify-center overflow-auto max-md:gap-2 max-md:py-4 px-4">
       <Transition viewport={{ once: true }}>
         <Button
           className={cn(
-            "border border-white/30 px-6 py-2 rounded-full relative",
+            "border border-white/30 px-4 md:px-6 py-2 rounded-full relative text-sm md:text-base",
             appliedFilter === "all" && "text-black border-transparent"
           )}
           onClick={() => setAppliedFilter("all")}
@@ -44,7 +50,7 @@ const Filters = () => {
             onClick={() => setAppliedFilter(filter)}
             animate={{ color: appliedFilter === filter ? "black" : "" }}
             transition={{ delay: 0.4 }}
-            className="relative border border-white/20 px-3 py-2 rounded-full"
+            className="relative border border-white/20 px-3 md:px-4 py-2 rounded-full text-sm md:text-base"
           >
             {appliedFilter === filter && (
               <motion.span
@@ -72,7 +78,7 @@ const Sort = () => {
 
   return (
     <Button
-      className="border border-white/20 px-4 py-2 rounded-full"
+      className="border border-white/20 px-3 md:px-4 py-2 rounded-full text-sm md:text-base"
       onClick={() => setSort(true)}
     >
       <TextReveal>{sort ? "Sorted" : "Sort"}</TextReveal>

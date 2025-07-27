@@ -9,14 +9,23 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@sanity/client": "^7.8.1",
+    "@sanity/icons": "^3.7.4",
+    "@sanity/image-url": "^1.1.0",
+    "@sanity/vision": "^3.99.0",
     "@studio-freight/lenis": "^1.0.42",
     "clsx": "^2.1.0",
     "framer-motion": "^11.0.15",
     "lucide-react": "^0.360.0",
+    "mongodb": "^6.18.0",
+    "mongoose": "^8.16.5",
     "next": "14.1.4",
+    "next-sanity": "^9.12.3",
     "nodemailer": "^6.9.16",
     "react": "^18",
     "react-dom": "^18",
+    "sanity": "^3.99.0",
+    "styled-components": "^6.1.19",
     "tailwind-merge": "^2.2.2"
   },
   "devDependencies": {

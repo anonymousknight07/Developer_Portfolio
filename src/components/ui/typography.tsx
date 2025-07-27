@@ -25,8 +25,15 @@ interface TextRevealProps {
   children: string;
   className?: string;
 }
+
 export const TextReveal = ({ children, className }: TextRevealProps) => {
   const [hover, setHover] = useState(false);
+
+  // Add type guard to ensure children is a string
+  if (typeof children !== "string") {
+    console.warn("TextReveal: children must be a string");
+    return <div className={className}>{children}</div>;
+  }
 
   return (
     <motion.div
@@ -46,7 +53,7 @@ export const TextReveal = ({ children, className }: TextRevealProps) => {
               transition: { delay: i * 0.02, ease: [0.215, 0.61, 0.355, 1] },
             }}
             key={i}
-            className="inline-block whitespace-"
+            className="inline-block whitespace-pre" // Fixed incomplete className
           >
             {char}
           </motion.span>
@@ -64,7 +71,7 @@ export const TextReveal = ({ children, className }: TextRevealProps) => {
               transition: { delay: i * 0.02, ease: [0.215, 0.61, 0.355, 1] },
             }}
             key={i}
-            className="inline-block whitespace-"
+            className="inline-block whitespace-pre" // Fixed incomplete className
           >
             {char}
           </motion.span>
@@ -81,6 +88,12 @@ export function PerspectiveText({
   children: string;
   hover?: boolean;
 }) {
+  // Add type guard for PerspectiveText as well
+  if (typeof children !== "string") {
+    console.warn("PerspectiveText: children must be a string");
+    return <div>{children}</div>;
+  }
+
   return (
     <motion.div className="relative overflow-hidden whitespace-pre">
       <motion.div

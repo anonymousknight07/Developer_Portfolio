@@ -16,6 +16,8 @@ export interface User {
   social_handles: SocialHandle[];
   services: Service[];
   testimonials: Testimonial[];
+  blog: BlogPost[];
+  music: Music[];
   createdAt: string;
   updatedAt: string;
   refreshToken: string;
@@ -105,4 +107,46 @@ export interface Timeline {
   forEducation: boolean;
   enabled: boolean;
   _id: string;
+}
+
+export interface BlogPost {
+  _id: string;
+  title: string;
+  slug: {
+    current: string;
+  };
+  author: string;
+  publishedAt: string;
+  excerpt: string;
+  content: any[];
+  featuredImage: Image;
+  tags: string[];
+  readTime: number;
+  enabled: boolean;
+  sequence: number;
+}
+
+export interface Music {
+  _id: string;
+  title: string;
+  artist: string;
+  album?: string;
+  genre?: string;
+  releaseDate: string;
+  duration: number;
+  audioFile?: {
+    asset: {
+      url: string;
+    };
+  };
+  coverImage: Image;
+  lyrics?: string;
+  description?: string;
+  spotifyUrl?: string;
+  appleMusicUrl?: string;
+  youtubeUrl?: string;
+  soundcloudUrl?: string;
+  enabled: boolean;
+  featured: boolean;
+  sequence: number;
 }
