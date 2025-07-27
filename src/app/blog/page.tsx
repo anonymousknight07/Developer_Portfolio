@@ -114,7 +114,8 @@ const BlogPage = () => {
                     : "border-white/30 hover:border-white/50"
                 }`}
               >
-                <TextReveal>All ({posts.length})</TextReveal>
+              <TextReveal>{`All (${posts.length})`}</TextReveal>
+
               </button>
             </Transition>
             {allTags.map((tag, index) => {
@@ -134,9 +135,7 @@ const BlogPage = () => {
                         : "border-white/30 hover:border-white/50"
                     }`}
                   >
-                    <TextReveal>
-                      {tag} ({count})
-                    </TextReveal>
+                    <TextReveal>{`${tag} (${count})`}</TextReveal>
                   </button>
                 </Transition>
               );
@@ -229,7 +228,7 @@ const BlogCard = ({ post }: { post: BlogPost }) => {
             <div className="flex items-center gap-1">
               <Calendar size={14} />
               <span>
-                {publishedDate.month}/{publishedDate.year}
+                {String(publishedDate.month)}/{String(publishedDate.year)}
               </span>
             </div>
           </div>
