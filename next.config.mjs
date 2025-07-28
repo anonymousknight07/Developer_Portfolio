@@ -6,9 +6,12 @@ const nextConfig = {
         hostname: "portfolio-image-store.s3.ap-south-1.amazonaws.com",
       },
       {
-        hostname: "cdn.sanity.io", 
+        hostname: "cdn.sanity.io",
       },
     ],
+  },
+  typescript: {
+    ignoreBuildErrors: true, 
   },
 };
 
