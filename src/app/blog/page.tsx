@@ -4,7 +4,7 @@ import { BlogPost } from "@/utils/interfaces";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
-import { SectionHeading, SlideIn, TextReveal, Transition } from "./ui";
+import { SectionHeading, SlideIn, TextReveal, Transition } from "@/components/ui";
 import { Calendar, Clock, User } from "lucide-react";
 import { formatDate } from "@/utils";
 import { fetchBlogPosts } from "@/lib/sanity-queries";
