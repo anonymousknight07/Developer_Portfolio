@@ -46,7 +46,9 @@ export const Hero = ({ about }: { about: About }) => {
             <Transition viewport={{ once: true }}>
               <div className="flex gap-4 mt-4">
                 <Link
-                  href={"https://drive.google.com/file/d/1tFbXyS-hF4yylWpfCEQM8IDKAYZOWyvP/view?usp=sharing"}
+                  href={
+                    "https://drive.google.com/file/d/1tEaOiJ-d97LtB14LCCNHEWljXrgzbPrY/view?usp=sharing"
+                  }
                   className="px-5 py-3 rounded-full border border-white/50 flex items-center gap-4 group"
                 >
                   <TextReveal>My Resume</TextReveal>

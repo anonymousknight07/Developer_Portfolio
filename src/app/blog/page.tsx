@@ -3,29 +3,38 @@
 import { BlogPost } from "@/utils/interfaces";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import { SectionHeading, SlideIn, TextReveal, Transition } from "@/components/ui";
+import { useState, useEffect } from "react";
+import {
+  SectionHeading,
+  SlideIn,
+  TextReveal,
+  Transition,
+} from "@/components/ui";
 import { Calendar, Clock, User } from "lucide-react";
 import { formatDate } from "@/utils";
 import { fetchBlogPosts } from "@/lib/sanity-queries";
-import { useEffect } from "react";
 
 interface BlogProps {
-  posts: BlogPost[];
+  posts?: BlogPost[]; // made optional just in case
 }
 
-const Blog = ({ posts: initialPosts }: BlogProps) => {
+const Blog = ({ posts: initialPosts = [] }: BlogProps) => {
   const [selectedTag, setSelectedTag] = useState<string>("all");
-  const [posts, setPosts] = useState<BlogPost[]>(initialPosts);
+  const [posts, setPosts] = useState<BlogPost[]>(() => initialPosts ?? []);
 
   // If no initial posts provided, fetch from Sanity
   useEffect(() => {
     if (!initialPosts || initialPosts.length === 0) {
-      fetchBlogPosts().then(setPosts);
+      fetchBlogPosts().then((data) => {
+        setPosts(Array.isArray(data) ? data : []);
+      });
     }
   }, [initialPosts]);
 
-  const enabledPosts = posts.filter((post) => post.enabled);
+  const enabledPosts = Array.isArray(posts)
+    ? posts.filter((post) => post.enabled)
+    : [];
+
   const allTags = Array.from(
     new Set(enabledPosts.flatMap((post) => post.tags || []))
   );
@@ -37,7 +46,6 @@ const Blog = ({ posts: initialPosts }: BlogProps) => {
 
   return (
     <main className="min-h-screen bg-background relative">
-      {/* Background Elements */}
       <span className="blob size-1/2 absolute top-20 right-0 blur-[100px] -z-10" />
       <span className="blob size-1/3 absolute bottom-20 left-0 blur-[100px] -z-10" />
 
