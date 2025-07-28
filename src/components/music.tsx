@@ -16,19 +16,29 @@ import {
   Clock,
 } from "lucide-react";
 import Link from "next/link";
+import { fetchMusicTracks } from "@/lib/sanity-queries";
+
 
 interface MusicProps {
   songs: MusicType[];
 }
 
-const Music = ({ songs }: MusicProps) => {
+const Music = ({ songs: initialSongs }: MusicProps) => {
   const [currentSong, setCurrentSong] = useState<MusicType | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [volume, setVolume] = useState(1);
   const [showLyrics, setShowLyrics] = useState(false);
+  const [songs, setSongs] = useState<MusicType[]>(initialSongs);
   const audioRef = useRef<HTMLAudioElement>(null);
+
+  // If no initial songs provided, fetch from Sanity
+  useEffect(() => {
+    if (!initialSongs || initialSongs.length === 0) {
+      fetchMusicTracks().then(setSongs);
+    }
+  }, [initialSongs]);
 
   const enabledSongs = songs.filter((song) => song.enabled);
   const featuredSongs = enabledSongs.filter((song) => song.featured);

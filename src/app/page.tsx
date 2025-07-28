@@ -18,29 +18,42 @@ import Link from "next/link";
 import { Hero } from "@/components/hero";
 import Blog from "@/components/blog";
 import Music from "@/components/music";
+import { fetchBlogPosts, fetchMusicTracks } from "@/lib/sanity-queries";
 
 export default async function Home() {
   try {
-    // Add error handling for the fetch request
-    const res = await fetch(process.env.NEXT_PUBLIC_API_URL as string);
-
-    // Check if the response is ok
-    if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`);
+    // Fetch data from external API for user info
+    let user = null;
+    try {
+      const res = await fetch(process.env.NEXT_PUBLIC_API_URL as string);
+      if (res.ok) {
+        const contentType = res.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+          const data = (await res.json()) as UserObject;
+          user = data.user;
+        }
+      }
+    } catch (apiError) {
+      console.error("Error fetching from external API:", apiError);
     }
 
-    // Check if the response is actually JSON
-    const contentType = res.headers.get("content-type");
-    if (!contentType || !contentType.includes("application/json")) {
-      throw new Error("Response is not JSON");
-    }
-
-    const { user } = (await res.json()) as UserObject;
-
+    // Fetch blog and music data from Sanity
+    const [blogPosts, musicTracks] = await Promise.all([
+      fetchBlogPosts(),
+      fetchMusicTracks(),
+    ]);
     if (!user) {
       return (
         <div className="min-h-screen flex items-center justify-center">
-          <p className="text-white">No user data found</p>
+          <div className="text-center">
+            <p className="text-white mb-4">
+              No user data found from external API
+            </p>
+            <p className="text-white/60 text-sm">
+              Blog posts: {blogPosts.length} | Music tracks:{" "}
+              {musicTracks.length}
+            </p>
+          </div>
         </div>
       );
     }
@@ -54,8 +67,6 @@ export default async function Home() {
       social_handles,
       timeline,
       email,
-      blog,
-      music,
     } = user;
 
     return (
@@ -144,10 +155,10 @@ export default async function Home() {
         <Projects data={projects} />
 
         {/* ===BLOG SECTION=== */}
-        {blog && blog.length > 0 && <Blog posts={blog} />}
+        {blogPosts && blogPosts.length > 0 && <Blog posts={blogPosts} />}
 
         {/* ===MUSIC SECTION=== */}
-        {music && music.length > 0 && <Music songs={music} />}
+        {musicTracks && musicTracks.length > 0 && <Music songs={musicTracks} />}
 
         {/* ===TESTIMONIALS SECTION=== */}
         <section className="py-20 relative" id="testimonials">

@@ -8,6 +8,7 @@ import { Calendar, Clock, User, ArrowLeft, Tag } from "lucide-react";
 import { BlogPost } from "@/utils/interfaces";
 import { formatDate } from "@/utils";
 import { Transition } from "@/components/ui";
+import { fetchBlogPosts, fetchBlogPostBySlug } from "@/lib/sanity-queries";
 
 const BlogPostPage = () => {
   const params = useParams();
@@ -23,19 +24,15 @@ const BlogPostPage = () => {
 
   const fetchPost = async (slug: string) => {
     try {
-      // For now, we'll fetch from the main API and filter
-      const res = await fetch(process.env.NEXT_PUBLIC_API_URL as string);
-      const { user } = await res.json();
-      const posts = user.blog || [];
-
-      const currentPost = posts.find((p: BlogPost) => p.slug.current === slug);
-      setPost(currentPost || null);
+      const currentPost = await fetchBlogPostBySlug(slug);
+      setPost(currentPost);
 
       // Get related posts (same tags)
       if (currentPost) {
+        const posts = await fetchBlogPosts();
         const related = posts
           .filter(
-            (p: BlogPost) =>
+            (p) =>
               p._id !== currentPost._id &&
               p.enabled &&
               p.tags?.some((tag) => currentPost.tags?.includes(tag))
@@ -84,7 +81,11 @@ const BlogPostPage = () => {
   const publishedDate = formatDate(post.publishedAt);
 
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen bg-background relative">
+      {/* Background Elements */}
+      <span className="blob size-1/2 absolute top-20 right-0 blur-[100px] -z-10" />
+      <span className="blob size-1/3 absolute bottom-20 left-0 blur-[100px] -z-10" />
+
       <article className="container mx-auto px-4 py-20 max-w-4xl">
         {/* Back Button */}
         <Transition className="mb-8">
@@ -99,7 +100,7 @@ const BlogPostPage = () => {
 
         {/* Featured Image */}
         <Transition className="mb-8">
-          <div className="aspect-video relative overflow-hidden rounded-xl">
+          <div className="aspect-[4/3] md:aspect-video relative overflow-hidden rounded-xl">
             <Image
               src={post.featuredImage.url}
               alt={post.title}
@@ -112,28 +113,28 @@ const BlogPostPage = () => {
         </Transition>
 
         {/* Post Header */}
-        <header className="mb-8">
+        <header className="mb-6 md:mb-8">
           <Transition>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+            <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold mb-4 md:mb-6 leading-tight">
               {post.title}
             </h1>
           </Transition>
 
           <Transition transition={{ delay: 0.2 }}>
-            <div className="flex flex-wrap items-center gap-6 text-white/60 mb-6">
+            <div className="flex flex-wrap items-center gap-3 md:gap-6 text-white/60 mb-4 md:mb-6 text-sm md:text-base">
               <div className="flex items-center gap-2">
-                <User size={18} />
+                <User size={16} className="md:w-[18px] md:h-[18px]" />
                 <span>{post.author}</span>
               </div>
               <div className="flex items-center gap-2">
-                <Calendar size={18} />
+                <Calendar size={16} className="md:w-[18px] md:h-[18px]" />
                 <span>
                   {publishedDate.month}/{publishedDate.year}
                 </span>
               </div>
               {post.readTime && (
                 <div className="flex items-center gap-2">
-                  <Clock size={18} />
+                  <Clock size={16} className="md:w-[18px] md:h-[18px]" />
                   <span>{post.readTime} min read</span>
                 </div>
               )}
@@ -143,13 +144,13 @@ const BlogPostPage = () => {
           {/* Tags */}
           {post.tags && post.tags.length > 0 && (
             <Transition transition={{ delay: 0.3 }}>
-              <div className="flex flex-wrap gap-2 mb-6">
+              <div className="flex flex-wrap gap-2 mb-4 md:mb-6">
                 {post.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="inline-flex items-center gap-1 px-3 py-1 bg-primary/20 text-primary rounded-full text-sm font-medium"
+                    className="inline-flex items-center gap-1 px-2 md:px-3 py-1 bg-primary/20 text-primary rounded-full text-xs md:text-sm font-medium"
                   >
-                    <Tag size={14} />
+                    <Tag size={12} className="md:w-[14px] md:h-[14px]" />
                     {tag}
                   </span>
                 ))}
@@ -158,7 +159,7 @@ const BlogPostPage = () => {
           )}
 
           <Transition transition={{ delay: 0.4 }}>
-            <p className="text-xl text-white/80 leading-relaxed">
+            <p className="text-base md:text-lg lg:text-xl text-white/80 leading-relaxed">
               {post.excerpt}
             </p>
           </Transition>
@@ -166,9 +167,9 @@ const BlogPostPage = () => {
 
         {/* Post Content */}
         <Transition transition={{ delay: 0.5 }}>
-          <div className="prose prose-invert prose-lg max-w-none">
+          <div className="prose prose-invert prose-sm md:prose-lg max-w-none">
             {/* For now, we'll show a placeholder since we don't have rich text rendering */}
-            <div className="text-white/90 leading-relaxed space-y-6">
+            <div className="text-white/90 leading-relaxed space-y-4 md:space-y-6 text-sm md:text-base">
               <p>
                 This is where the full blog post content would be rendered. In a
                 complete implementation, you would use a rich text renderer like
@@ -184,11 +185,13 @@ const BlogPostPage = () => {
 
         {/* Related Posts */}
         {relatedPosts.length > 0 && (
-          <section className="mt-16 pt-16 border-t border-white/10">
+          <section className="mt-12 md:mt-16 pt-8 md:pt-16 border-t border-white/10">
             <Transition>
-              <h2 className="text-3xl font-bold mb-8">Related Posts</h2>
+              <h2 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8">
+                Related Posts
+              </h2>
             </Transition>
-            <div className="grid md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
               {relatedPosts.map((relatedPost, index) => (
                 <Transition
                   key={relatedPost._id}
@@ -196,9 +199,9 @@ const BlogPostPage = () => {
                 >
                   <Link
                     href={`/blog/${relatedPost.slug.current}`}
-                    className="group block bg-secondary/30 rounded-xl overflow-hidden hover:bg-secondary/50 transition-all duration-300"
+                    className="group block bg-secondary/20 backdrop-blur-sm rounded-xl overflow-hidden hover:bg-secondary/40 transition-all duration-300 border border-white/10"
                   >
-                    <div className="aspect-video relative overflow-hidden">
+                    <div className="aspect-[4/3] md:aspect-video relative overflow-hidden">
                       <Image
                         src={relatedPost.featuredImage.url}
                         alt={relatedPost.title}
@@ -208,10 +211,10 @@ const BlogPostPage = () => {
                       />
                     </div>
                     <div className="p-4">
-                      <h3 className="font-bold mb-2 line-clamp-2 group-hover:text-primary transition-colors">
+                      <h3 className="font-bold mb-2 line-clamp-2 group-hover:text-primary transition-colors text-sm md:text-base">
                         {relatedPost.title}
                       </h3>
-                      <p className="text-white/60 text-sm line-clamp-2">
+                      <p className="text-white/60 text-xs md:text-sm line-clamp-2">
                         {relatedPost.excerpt}
                       </p>
                     </div>
