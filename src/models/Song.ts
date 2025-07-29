@@ -31,7 +31,7 @@ const SongSchema = new mongoose.Schema({
   },
   likedBy: [
     {
-      type: String, // Store IP addresses or user IDs
+      type: String, 
     },
   ],
   comments: [CommentSchema],

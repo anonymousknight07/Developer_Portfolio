@@ -105,101 +105,101 @@ const Music = ({ songs: initialSongs }: MusicProps) => {
     setCurrentSong(enabledSongs[prevIndex]);
   };
 
-  return (
-    <section className="py-20 px-4 md:px-8 relative" id="music">
-      <span className="blob size-1/2 absolute top-20 left-0 blur-[100px] -z-10" />
+  // return (
+  //   <section className="py-20 px-4 md:px-8 relative" id="music">
+  //     <span className="blob size-1/2 absolute top-20 left-0 blur-[100px] -z-10" />
 
-      <SectionHeading className="md:pl-16">
-        <SlideIn className="text-white/40">My</SlideIn>
-        <br />
-        <SlideIn>Music</SlideIn>
-      </SectionHeading>
+  //     <SectionHeading className="md:pl-16">
+  //       <SlideIn className="text-white/40">My</SlideIn>
+  //       <br />
+  //       <SlideIn>Music</SlideIn>
+  //     </SectionHeading>
 
-      {/* Featured Songs */}
-      {featuredSongs.length > 0 && (
-        <div className="mb-16">
-          <h3 className="text-2xl md:text-3xl font-bold mb-8 text-center">
-            <Transition>Featured Tracks</Transition>
-          </h3>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featuredSongs.map((song, index) => (
-              <Transition
-                key={song._id}
-                transition={{ delay: 0.1 + index * 0.1 }}
-              >
-                <FeaturedSongCard
-                  song={song}
-                  onPlay={() => playSong(song)}
-                  isCurrentSong={currentSong?._id === song._id}
-                  isPlaying={isPlaying}
-                />
-              </Transition>
-            ))}
-          </div>
-        </div>
-      )}
+  //     {/* Featured Songs */}
+  //     {featuredSongs.length > 0 && (
+  //       <div className="mb-16">
+  //         <h3 className="text-2xl md:text-3xl font-bold mb-8 text-center">
+  //           <Transition>Featured Tracks</Transition>
+  //         </h3>
+  //         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+  //           {featuredSongs.map((song, index) => (
+  //             <Transition
+  //               key={song._id}
+  //               transition={{ delay: 0.1 + index * 0.1 }}
+  //             >
+  //               <FeaturedSongCard
+  //                 song={song}
+  //                 onPlay={() => playSong(song)}
+  //                 isCurrentSong={currentSong?._id === song._id}
+  //                 isPlaying={isPlaying}
+  //               />
+  //             </Transition>
+  //           ))}
+  //         </div>
+  //       </div>
+  //     )}
 
-      {/* All Songs */}
-      <div className="mb-16">
-        <h3 className="text-2xl md:text-3xl font-bold mb-8 text-center">
-          <Transition>All Tracks</Transition>
-        </h3>
-        <div className="space-y-4">
-          {enabledSongs.map((song, index) => (
-            <Transition
-              key={song._id}
-              transition={{ delay: 0.1 + index * 0.05 }}
-            >
-              <SongRow
-                song={song}
-                onPlay={() => playSong(song)}
-                isCurrentSong={currentSong?._id === song._id}
-                isPlaying={isPlaying}
-                index={index + 1}
-              />
-            </Transition>
-          ))}
-        </div>
-      </div>
+  //     {/* All Songs */}
+  //     <div className="mb-16">
+  //       <h3 className="text-2xl md:text-3xl font-bold mb-8 text-center">
+  //         <Transition>All Tracks</Transition>
+  //       </h3>
+  //       <div className="space-y-4">
+  //         {enabledSongs.map((song, index) => (
+  //           <Transition
+  //             key={song._id}
+  //             transition={{ delay: 0.1 + index * 0.05 }}
+  //           >
+  //             <SongRow
+  //               song={song}
+  //               onPlay={() => playSong(song)}
+  //               isCurrentSong={currentSong?._id === song._id}
+  //               isPlaying={isPlaying}
+  //               index={index + 1}
+  //             />
+  //           </Transition>
+  //         ))}
+  //       </div>
+  //     </div>
 
-      {/* Music Player */}
-      {currentSong && (
-        <MusicPlayer
-          song={currentSong}
-          isPlaying={isPlaying}
-          currentTime={currentTime}
-          duration={duration}
-          volume={volume}
-          showLyrics={showLyrics}
-          onTogglePlay={togglePlayPause}
-          onNext={nextSong}
-          onPrev={prevSong}
-          onSeek={(time) => {
-            if (audioRef.current) {
-              audioRef.current.currentTime = time;
-            }
-          }}
-          onVolumeChange={(vol) => {
-            setVolume(vol);
-            if (audioRef.current) {
-              audioRef.current.volume = vol;
-            }
-          }}
-          onToggleLyrics={() => setShowLyrics(!showLyrics)}
-        />
-      )}
+  //     {/* Music Player */}
+  //     {currentSong && (
+  //       <MusicPlayer
+  //         song={currentSong}
+  //         isPlaying={isPlaying}
+  //         currentTime={currentTime}
+  //         duration={duration}
+  //         volume={volume}
+  //         showLyrics={showLyrics}
+  //         onTogglePlay={togglePlayPause}
+  //         onNext={nextSong}
+  //         onPrev={prevSong}
+  //         onSeek={(time) => {
+  //           if (audioRef.current) {
+  //             audioRef.current.currentTime = time;
+  //           }
+  //         }}
+  //         onVolumeChange={(vol) => {
+  //           setVolume(vol);
+  //           if (audioRef.current) {
+  //             audioRef.current.volume = vol;
+  //           }
+  //         }}
+  //         onToggleLyrics={() => setShowLyrics(!showLyrics)}
+  //       />
+  //     )}
 
-      {/* Hidden Audio Element */}
-      {currentSong?.audioFile && (
-        <audio
-          ref={audioRef}
-          src={currentSong.audioFile.asset.url}
-          onEnded={nextSong}
-          autoPlay={isPlaying}
-        />
-      )}
-    </section>
-  );
+  //     {/* Hidden Audio Element */}
+  //     {currentSong?.audioFile && (
+  //       <audio
+  //         ref={audioRef}
+  //         src={currentSong.audioFile.asset.url}
+  //         onEnded={nextSong}
+  //         autoPlay={isPlaying}
+  //       />
+  //     )}
+  //   </section>
+  // );
 };
 
 const FeaturedSongCard = ({

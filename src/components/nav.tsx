@@ -88,10 +88,7 @@ export const navLinks = [
     title: "About",
     href: "#about",
   },
-  {
-    title: "Experience",
-    href: "#experience",
-  },
+ 
   {
     title: "Services",
     href: "#services",
