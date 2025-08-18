@@ -133,10 +133,13 @@ const BlogCard = ({ post }: { post: BlogPost }) => {
 
         <div className="flex items-center justify-between text-xs md:text-sm text-white/50">
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1">
+            <Link
+              href={`/blog/author/${post.author.toLowerCase().replace(/\s+/g, "-")}`}
+              className="flex items-center gap-1 hover:text-primary transition-colors"
+            >
               <User size={14} />
               <span>{post.author}</span>
-            </div>
+            </Link>
             <div className="flex items-center gap-1">
               <Calendar size={14} />
               <span>

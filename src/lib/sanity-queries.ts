@@ -42,6 +42,34 @@ export const blogQueries = {
     readTime,
     enabled
   }`,
+
+  getAuthorByName: (
+    authorName: string
+  ) => `*[_type == "author" && name == "${authorName}"][0] {
+    _id,
+    name,
+    slug,
+    image {
+      asset-> {
+        _id,
+        url
+      }
+    },
+    bio
+  }`,
+
+  getAllAuthors: `*[_type == "author"] {
+    _id,
+    name,
+    slug,
+    image {
+      asset-> {
+        _id,
+        url
+      }
+    },
+    bio
+  }`,
 };
 
 // Music queries
@@ -139,6 +167,38 @@ export const fetchBlogPostBySlug = async (slug: string) => {
   } catch (error) {
     console.error("Error fetching blog post:", error);
     return null;
+  }
+};
+
+export const fetchAuthorByName = async (authorName: string) => {
+  try {
+    const author = await client.fetch(blogQueries.getAuthorByName(authorName));
+    if (!author) return null;
+
+    return {
+      ...author,
+      image: {
+        url: author.image?.asset?.url || "",
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching author:", error);
+    return null;
+  }
+};
+
+export const fetchAllAuthors = async () => {
+  try {
+    const authors = await client.fetch(blogQueries.getAllAuthors);
+    return authors.map((author: any) => ({
+      ...author,
+      image: {
+        url: author.image?.asset?.url || "",
+      },
+    }));
+  } catch (error) {
+    console.error("Error fetching authors:", error);
+    return [];
   }
 };
 

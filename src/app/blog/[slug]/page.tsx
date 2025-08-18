@@ -5,14 +5,20 @@ import { useParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { Calendar, Clock, User, ArrowLeft, Tag } from "lucide-react";
-import { BlogPost } from "@/utils/interfaces";
+import { BlogPost, Author } from "@/utils/interfaces";
 import { formatDate } from "@/utils";
 import { Transition } from "@/components/ui";
-import { fetchBlogPosts, fetchBlogPostBySlug } from "@/lib/sanity-queries";
+import {
+  fetchBlogPosts,
+  fetchBlogPostBySlug,
+  fetchAuthorByName,
+} from "@/lib/sanity-queries";
+import { PortableTextRenderer } from "@/components/portable-text";
 
 const BlogPostPage = () => {
   const params = useParams();
   const [post, setPost] = useState<BlogPost | null>(null);
+  const [author, setAuthor] = useState<Author | null>(null);
   const [loading, setLoading] = useState(true);
   const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
 
@@ -26,6 +32,12 @@ const BlogPostPage = () => {
     try {
       const currentPost = await fetchBlogPostBySlug(slug);
       setPost(currentPost);
+
+      // Fetch author information
+      if (currentPost?.author) {
+        const authorData = await fetchAuthorByName(currentPost.author);
+        setAuthor(authorData);
+      }
 
       // Get related posts (same tags)
       if (currentPost) {
@@ -122,10 +134,13 @@ const BlogPostPage = () => {
 
           <Transition transition={{ delay: 0.2 }}>
             <div className="flex flex-wrap items-center gap-3 md:gap-6 text-white/60 mb-4 md:mb-6 text-sm md:text-base">
-              <div className="flex items-center gap-2">
+              <Link
+                href={`/blog/author/${author?.slug?.current || post.author.toLowerCase().replace(/\s+/g, "-")}`}
+                className="flex items-center gap-2 hover:text-primary transition-colors"
+              >
                 <User size={16} className="md:w-[18px] md:h-[18px]" />
                 <span>{post.author}</span>
-              </div>
+              </Link>
               <div className="flex items-center gap-2">
                 <Calendar size={16} className="md:w-[18px] md:h-[18px]" />
                 <span>
@@ -167,21 +182,39 @@ const BlogPostPage = () => {
 
         {/* Post Content */}
         <Transition transition={{ delay: 0.5 }}>
-          <div className="prose prose-invert prose-sm md:prose-lg max-w-none">
-            {/* For now, we'll show a placeholder since we don't have rich text rendering */}
-            <div className="text-white/90 leading-relaxed space-y-4 md:space-y-6 text-sm md:text-base">
-              <p>
-                This is where the full blog post content would be rendered. In a
-                complete implementation, you would use a rich text renderer like
-                @portabletext/react for Sanity&apos;s portable text format.
-              </p>
-              <p>
-                The content would include formatted text, images, code blocks,
-                and other rich media elements based on your Sanity schema.
-              </p>
-            </div>
-          </div>
+          <PortableTextRenderer content={post.content} />
         </Transition>
+
+        {/* Author Bio Section */}
+        {author && (
+          <section className="mt-12 md:mt-16 pt-8 md:pt-16 border-t border-white/10">
+            <Transition>
+              <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-start">
+                {author.image?.url && (
+                  <div className="flex-shrink-0">
+                    <Image
+                      src={author.image.url}
+                      alt={author.name}
+                      width={120}
+                      height={120}
+                      className="rounded-full object-cover w-20 h-20 md:w-30 md:h-30"
+                    />
+                  </div>
+                )}
+                <div className="flex-1">
+                  <h3 className="text-xl md:text-2xl font-bold mb-3 text-white">
+                    About {author.name}
+                  </h3>
+                  {author.bio && author.bio.length > 0 && (
+                    <div className="text-white/80 leading-relaxed">
+                      <PortableTextRenderer content={author.bio} />
+                    </div>
+                  )}
+                </div>
+              </div>
+            </Transition>
+          </section>
+        )}
 
         {/* Related Posts */}
         {relatedPosts.length > 0 && (

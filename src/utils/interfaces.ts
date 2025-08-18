@@ -126,6 +126,16 @@ export interface BlogPost {
   sequence: number;
 }
 
+export interface Author {
+  _id: string;
+  name: string;
+  slug: {
+    current: string;
+  };
+  image: Image;
+  bio: any[];
+}
+
 export interface Music {
   _id: string;
   title: string;
