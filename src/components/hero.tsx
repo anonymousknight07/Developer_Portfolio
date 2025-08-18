@@ -47,7 +47,7 @@ export const Hero = ({ about }: { about: About }) => {
               <div className="flex gap-4 mt-4">
                 <Link
                   href={
-                    "https://drive.google.com/file/d/1tEaOiJ-d97LtB14LCCNHEWljXrgzbPrY/view?usp=sharing"
+                    "https://drive.google.com/file/d/10R4DKPdpbTptETZv2IREooysoBlYZti1/view?usp=sharing"
                   }
                   className="px-5 py-3 rounded-full border border-white/50 flex items-center gap-4 group"
                 >
